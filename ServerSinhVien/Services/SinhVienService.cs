@@ -86,7 +86,7 @@ namespace ServerSinhVien.Services
                         return SerializeList(kq); // Trả về kết quả
                     }
 
-                    case "SEARCHMULTI": // Trường hợp tìm kiếm kết hợp nhiều điều kiện
+                    case "SEARCHMULTI": // Trường hợp tìm kiếm kết hợp nhiều điều kiện lại với nhau
                     {
                         if (parts.Length < 2) return "ERROR;Thiếu tham số"; // Kiểm tra có truyền tham số không
                         var p = parts[1].Split('|'); // Tách các tham số (từ khóa | min | max | lớp)
@@ -107,7 +107,7 @@ namespace ServerSinhVien.Services
                         return SerializeList(kq); // Trả về chuỗi kết quả
                     }
 
-                    case "ADD": // Trường hợp thêm sinh viên mới
+                    case "ADD": // Trường hợp thêm sinh viên mới vào
                     {
                         if (parts.Length < 2) return "ERROR;Thiếu dữ liệu sinh viên"; // Kiểm tra có truyền dữ liệu sinh viên không
                         var sv = SinhVien.FromString(parts[1]); // Phân tích chuỗi dữ liệu thành đối tượng SinhVien
