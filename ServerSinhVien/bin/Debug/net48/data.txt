@@ -1,7 +1,0 @@
-﻿22001|Nguyễn Văn An|CTK44A|8.50
-22002|Trần Thị Bích|CTK44A|9.20
-22003|Lê Hoàng Cường|CTK44B|7.00
-22004|Phạm Văn Dũng|CTK44B|4.50
-22005|Nguyễn Hữu Em|CTK45A|6.80
-23002|Hoàng Thị Giao|CTK45A|3.50
-23003|Vũ Đức Hải|CTK45B|5.50

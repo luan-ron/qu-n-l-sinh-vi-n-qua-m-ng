@@ -1,3 +1,7 @@
-.vs
-.sixth
-.dist
+[Bb]in/
+[Oo]bj/
+*.user
+*.exe
+*.pdb
+*.dll
+.vs/
