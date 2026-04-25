@@ -67,7 +67,7 @@ namespace ServerSinhVien.Data
             }
         }
 
-        // ── Kiểm tra MSSV đã tồn tại ─────────────────────────────────────────
+        // ── Kiểm tra MSSV đã tồn tại hay không ─────────────────────────────────────────
         public bool Exists(string mssv)
         {
             lock (_lock)
