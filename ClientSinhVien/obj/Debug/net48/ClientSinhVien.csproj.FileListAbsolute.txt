@@ -1,0 +1,24 @@
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\bin\Debug\net48\ClientSinhVien.exe.config
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\bin\Debug\net48\ClientSinhVien.exe
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\bin\Debug\net48\ClientSinhVien.pdb
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\bin\Debug\net48\EPPlus.dll
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.csproj.AssemblyReference.cache
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.AssemblyInfoInputs.cache
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.AssemblyInfo.cs
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.csproj.CoreCompileInputs.cache
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSi.02D0D24F.Up2Date
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.exe
+C:\Users\emcon\Downloads\QuanLySinhVien_VS2022 (1) (1)\ClientSinhVien\obj\Debug\net48\ClientSinhVien.pdb
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\bin\Debug\net48\ClientSinhVien.exe.config
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\bin\Debug\net48\ClientSinhVien.exe
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\bin\Debug\net48\ClientSinhVien.pdb
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\bin\Debug\net48\EPPlus.dll
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.csproj.AssemblyReference.cache
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.GeneratedMSBuildEditorConfig.editorconfig
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.AssemblyInfoInputs.cache
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.AssemblyInfo.cs
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.csproj.CoreCompileInputs.cache
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSi.02D0D24F.Up2Date
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.exe
+D:\lap_trinh_mang\demoCuoiKy\QuanLySinhVienNew\ClientSinhVien\obj\Debug\net48\ClientSinhVien.pdb
