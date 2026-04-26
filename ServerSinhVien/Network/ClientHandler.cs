@@ -33,11 +33,11 @@ namespace ServerSinhVien.Network
                 using (var stream = _client.GetStream()) // Lấy luồng dữ liệu (NetworkStream) để đọc/ghi với client
                 {
                     byte[] buf = new byte[65536]; // Tạo mảng byte đệm kích thước 64KB để chứa dữ liệu nhận được
-                    while (true) // Vòng lặp liên tục chờ nhận dữ liệu từ client
+                    while (true) // Vòng lặp liên tục chờ nhận dữ liệu từ phía client
                     {
                         int n;
                         try   { n = stream.Read(buf, 0, buf.Length); } // Đọc dữ liệu từ luồng vào mảng đệm và lấy số byte thực tế đọc được (n)
-                        catch { break; } // Nếu lỗi trong quá trình đọc (ví dụ rớt mạng), thoát khỏi vòng lặp
+                        catch { break; } // Nếu lỗi trong quá trình đọc (ví dụ rớt mạng), thì thoát khỏi vòng lặp
                         if (n == 0) break; // Nếu không đọc được byte nào (n=0), tức là client đã ngắt kết nối, thoát vòng lặp
 
                         string req = Encoding.UTF8.GetString(buf, 0, n).Trim(); // Chuyển đổi mảng byte nhận được thành chuỗi văn bản (UTF8) và cắt bỏ khoảng trắng thừa
