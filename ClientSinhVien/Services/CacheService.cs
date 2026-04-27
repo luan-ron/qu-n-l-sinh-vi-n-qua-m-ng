@@ -11,30 +11,30 @@ namespace ClientSinhVien.Services
     /// </summary>
     public class CacheService
     {
-        private List<SinhVienItem> _cache     = new List<SinhVienItem>();
-        private DateTime           _lastUpdate = DateTime.MinValue;
+        private List<SinhVienItem> cache = new List<SinhVienItem>();
+        private DateTime lastUpdate = DateTime.MinValue;
 
-        public bool HasData => _cache.Count > 0;
-        public int  Count   => _cache.Count;
-        public DateTime LastUpdate => _lastUpdate;
+        public bool HasData => cache.Count > 0;
+        public int  Count   => cache.Count;
+        public DateTime LastUpdate => lastUpdate;
 
         // ── Cập nhật cache từ dữ liệu mới nhận ──────────────────────────────
         public void Update(List<SinhVienItem> items)
         {
-            _cache      = new List<SinhVienItem>(items);
-            _lastUpdate = DateTime.Now;
+            cache = new List<SinhVienItem>(items);
+            lastUpdate = DateTime.Now;
         }
 
         // ── Lấy toàn bộ cache ────────────────────────────────────────────────
         public List<SinhVienItem> GetAll()
         {
-            return new List<SinhVienItem>(_cache);
+            return new List<SinhVienItem>(cache);
         }
 
         // ── Xóa cache ────────────────────────────────────────────────────────
         public void Clear()
         {
-            _cache.Clear();
+            cache.Clear();
         }
 
         // ── Trả về chuỗi hiển thị trạng thái cache ───────────────────────────
@@ -42,8 +42,8 @@ namespace ClientSinhVien.Services
         {
             get
             {
-                if (_cache.Count == 0) return "Cache: trống";
-                return $"Cache: {_cache.Count} sinh viên | Cập nhật lúc {_lastUpdate:HH:mm:ss}";
+                if (cache.Count == 0) return "Cache: trống";
+                return $"Cache: {cache.Count} sinh viên | Cập nhật lúc {lastUpdate:HH:mm:ss}";
             }
         }
     }
