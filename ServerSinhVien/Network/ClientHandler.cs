@@ -48,7 +48,7 @@ namespace ServerSinhVien.Network
 
                         string resp      = _service.Process(req); // Chuyển chuỗi yêu cầu vào Service để xử lý và lấy chuỗi kết quả trả về
                         byte[] respBytes = Encoding.UTF8.GetBytes(resp); // Chuyển đổi chuỗi kết quả thành mảng byte (UTF8)
-                        stream.Write(respBytes, 0, respBytes.Length); // Ghi mảng byte kết quả vào luồng để gửi lại cho client
+                        stream.Write(respBytes, 0, respBytes.Length); // Ghi mảng byte kết quả vào luồng để gửi lại cho phía client
                     }
                 }
             }
@@ -58,7 +58,7 @@ namespace ServerSinhVien.Network
             }
             finally
             {
-                _onDisconnect?.Invoke(); // Gọi hàm callback thông báo cho hệ thống rằng client này đã ngắt kết nối (để cập nhật lại số lượng client)
+                _onDisconnect?.Invoke(); // Gọi hàm callback thông báo cho hệ thống rằng client này đã ngắt kết nối ( để cập nhật lại số lượng client )
             }
         }
 
