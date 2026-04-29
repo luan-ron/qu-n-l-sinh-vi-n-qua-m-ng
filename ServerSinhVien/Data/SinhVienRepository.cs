@@ -7,7 +7,7 @@ using ServerSinhVien.Models;
 namespace ServerSinhVien.Data
 {
     /// <summary>
-    /// Chịu trách nhiệm đọc/ghi file data.txt và quản lý List&lt;SinhVien&gt; trong RAM.
+    /// Chịu trách nhiệm để đọc/ghi file data.txt và quản lý List&lt;SinhVien&gt; trong RAM.
     /// </summary>
     public class SinhVienRepository
     {
