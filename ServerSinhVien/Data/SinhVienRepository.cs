@@ -30,7 +30,7 @@ namespace ServerSinhVien.Data
                 return new List<SinhVien>(_ds);
         }
 
-        // ── Thêm sinh viên vào ────────────────────────────────────────────────────
+        // ── Thêm sinh viên mới vào ────────────────────────────────────────────────────
         public void Add(SinhVien sv)
         {
             lock (_lock)
