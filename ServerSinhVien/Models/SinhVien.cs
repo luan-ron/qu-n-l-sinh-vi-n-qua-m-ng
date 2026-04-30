@@ -13,7 +13,7 @@ namespace ServerSinhVien.Models
         public string Lop   { get; set; }
         public float  Diem  { get; set; }
 
-        // Serialize: dùng InvariantCulture → luôn cho ra "8.5" (dấu chấm) 
+        // Serialize: dùng InvariantCulture → luôn cho ra là "8.5" (dấu chấm) 
         public override string ToString()
         {
             return string.Format(
