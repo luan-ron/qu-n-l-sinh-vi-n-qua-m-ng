@@ -13,7 +13,7 @@ namespace ServerSinhVien.Models
         public string Lop   { get; set; }
         public float  Diem  { get; set; }
 
-        // Serialize: dùng InvariantCulture → luôn cho ra là "8.5" (dấu chấm) 
+        //Serialize: dùng InvariantCulture → luôn cho ra là "8.5" (dấu chấm) 
         public override string ToString()
         {
             return string.Format(
@@ -22,7 +22,7 @@ namespace ServerSinhVien.Models
                 MSSV, HoTen, Lop, Diem);
         }
 
-        // Deserialize: chấp nhận cả "8.5" và "8,5" để tương thích với dữ liệu cũ
+        //Deserialize: chấp nhận cả "8.5" và "8,5" để tương thích với dữ liệu cũ
         public static SinhVien FromString(string data)
         {
             if (string.IsNullOrWhiteSpace(data))
