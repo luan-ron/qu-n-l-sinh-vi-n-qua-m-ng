@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace ClientSinhVien.Controls
 {
-    /// <summary>Panel với linear gradient ngang.</summary>
+//affas
     public class GradientPanel : Panel
     {
         public Color Color1 { get; set; }

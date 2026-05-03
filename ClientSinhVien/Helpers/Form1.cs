@@ -25,14 +25,14 @@ namespace ClientSinhVien
     /// - Thêm, Sửa, Xóa thông tin sinh viên (tương tác trực tiếp qua danh sách).
     /// - Tìm kiếm kết hợp (theo tên, mã, điểm, lớp).
     /// - Xuất file Excel.
-    /// - Quản lý log các hoạt động.
+    /// - Quản lý log các hoạt động
     /// </summary>
     public partial class Form1 : Form
     {
         // ── Services ──────────────────────────────────────────────────────────
-        private readonly ServerConnection _conn    = new ServerConnection();
-        private readonly CacheService     _cache   = new CacheService();
-        private readonly LogService       _log     = new LogService();
+        private readonly ServerConnection _conn    = new ServerConnection(); // dùng để kết nối và gửi dữ liệu tới server
+        private readonly CacheService     _cache   = new CacheService(); //lưu dữ liệu tạm khi mất mạng (offline)
+        private readonly LogService       _log     = new LogService(); //ghi lại lịch sử thao tác (thêm, sửa, xóa)
 
         // ── Panels & Controls ─────────────────────────────────────────────────
         private SidebarPanel  _sidebar;
@@ -269,22 +269,28 @@ namespace ClientSinhVien
         // ══════════════════════════════════════════════════════════════════════
         // KẾT NỐI
         // ══════════════════════════════════════════════════════════════════════
-        private async void OnConnect(object sender, EventArgs e)
+        private async void OnConnect(object sender, EventArgs e) // Khởi tạo 1 hàm bất đồng bộ
+            //Luồng hoạt động 
+            // 1. Kiểm tra xem client có đang kết nối với server chưa nếu đang kết nối thực hiện ngắt kết nối
+            
         {
-            if (_conn.IsConnected) // Kiểm tra xem nếu đã kết nối với server
+            if (_conn.IsConnected) 
             {
-                _conn.Disconnect(); // Thực hiện ngắt kết nối
-                _sidebar.SetConnected(false); // Cập nhật trạng thái giao diện ở thanh bên thành chưa kết nối
-                ShowToast("Đã ngắt kết nối.", ColorPalette.Warn); // Hiển thị thông báo ngắt kết nối thành công
+                _conn.Disconnect(); 
+                _sidebar.SetConnected(false);
+                ShowToast("Đã ngắt kết nối.", ColorPalette.Warn); 
                 return; // Kết thúc hàm
             }
+            // 2. Và sau đó gọi hàm conn.connectAsync kết nối đến host và port trên giao diện
+            // 3. Sau khi kết nối thành công thì gọi hàm LoadDataAsync để hiển thị bảng sinh viên ngay sau khi kết nối
             try
             {
-                ShowToast("Đang kết nối...", ColorPalette.Accent); // Hiển thị thông báo đang tiến hành kết nối
-                await _conn.ConnectAsync(_sidebar.TxtHost.Text.Trim(), int.Parse(_sidebar.TxtPort.Text.Trim())); // Gọi hàm kết nối tới địa chỉ IP và Port nhập trên giao diện
-                _sidebar.SetConnected(true); // Cập nhật trạng thái giao diện thành đã kết nối
-                ShowToast("Kết nối thành công!", ColorPalette.Success); // Hiển thị thông báo kết nối thành công
-                await LoadDataAsync(); // Tự động tải danh sách sinh viên ngay sau khi kết nối
+                ShowToast("Đang kết nối...", ColorPalette.Accent); 
+                await _conn.ConnectAsync(_sidebar.TxtHost.Text.Trim(), int.Parse(_sidebar.TxtPort.Text.Trim())); 
+                _sidebar.SetConnected(true); 
+                ShowToast("Kết nối thành công!", ColorPalette.Success); 
+
+                await LoadDataAsync(); 
             }
             catch (Exception ex)
             {
