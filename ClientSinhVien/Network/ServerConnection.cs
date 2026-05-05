@@ -2,7 +2,7 @@ using System;                      // Thư viện cơ bản (Exception, kiểu d
 using System.Net.Sockets;          // Thư viện làm việc với TCP/IP (TcpClient)
 using System.Text;                 // Dùng để encode/decode (string <-> byte[])
 using System.Threading.Tasks;      // Hỗ trợ async/await
-// afas
+
 namespace ClientSinhVien.Network   // Namespace để nhóm các class liên quan đến Network
 {
     /// <summary>
