@@ -8,7 +8,7 @@ using ServerSinhVien.Models;
 namespace ServerSinhVien.Services
 {
     /// <summary>
-    /// File: SinhVienService.cs
+    /// File:SinhVienService.cs
     /// Chức năng: Business logic của Server, nhận các lệnh từ Client (như GET, ADD, UPDATE, SEARCH,...)
     /// và thực thi chúng trên dữ liệu thông qua SinhVienRepository, sau đó trả về chuỗi kết quả.
     /// Commands:
