@@ -11,22 +11,8 @@ using ClientSinhVien.Models;
 using ClientSinhVien.Network;
 using ClientSinhVien.Panels;
 using ClientSinhVien.Services;
-//adka
-
 namespace ClientSinhVien
 {
-    /// <summary>
-    /// File: Form1.cs
-    /// Chức năng: Giao diện chính của ứng dụng quản lý sinh viên.
-    /// Quản lý sự kiện, gọi đến các Service, gửi lệnh thông qua Network,
-    /// và cập nhật giao diện hiển thị cho người dùng.
-    /// Tính năng:
-    /// - Kết nối/Ngắt kết nối tới Server.
-    /// - Thêm, Sửa, Xóa thông tin sinh viên (tương tác trực tiếp qua danh sách).
-    /// - Tìm kiếm kết hợp (theo tên, mã, điểm, lớp).
-    /// - Xuất file Excel.
-    /// - Quản lý log các hoạt động
-    /// </summary>
     public partial class Form1 : Form
     {
         // ── Services ──────────────────────────────────────────────────────────
@@ -52,9 +38,6 @@ namespace ClientSinhVien
             WireEvents();
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        // BUILD UI
-        // ══════════════════════════════════════════════════════════════════════
         private void BuildUI()
         {
             Text            = "Quản Lý Sinh Viên qua Mạng";
@@ -73,26 +56,17 @@ namespace ClientSinhVien
             };
             Controls.Add(_toast);
 
-            // ── Sidebar ───────────────────────────────────────────────────
+
             _sidebar = new SidebarPanel();
             Controls.Add(_sidebar);
 
-            // ── Center panel (top bar + stat card + grid + log panel) ─────
+ 
             _centerPanel = new Panel { Dock = DockStyle.Fill, BackColor = ColorPalette.BG };
             Controls.Add(_centerPanel);
             _centerPanel.BringToFront();
 
-            // ── Top bar ───────────────────────────────────────────────────
             _topBar = new TopBarPanel();
             _centerPanel.Controls.Add(_topBar);
-
-            // Thứ tự add control vào _centerPanel phải đúng để DockStyle.Fill hoạt động:
-            // Fill được tính CUỐI CÙNG, nên phải add _grid SAU tất cả Docked controls.
-            // Trong WinForms: control add trước = Z-order cao hơn (hiển thị trên)
-            // nhưng Dock layout xử lý theo thứ tự ngược lại (LIFO).
-            // Vì vậy: add Bottom/Top controls TRƯỚC, add Fill CUỐI.
-
-            // ── Bottom status bar ─────────────────────────────────────────
             var bottomBar = new Panel
             {
                 Dock      = DockStyle.Bottom,
@@ -112,15 +86,13 @@ namespace ClientSinhVien
             bottomBar.Controls.Add(_lblCacheStatus);
             _centerPanel.Controls.Add(bottomBar);
 
-            // ── Log panel (Bottom) ────────────────────────────────────────
+
             _logPanel = new LogPanel();
             _centerPanel.Controls.Add(_logPanel);
 
-            // ── Stat card (Top, hiện dưới TopBar khi tìm theo lớp) ───────
             _statCard = new StatCard();
             _centerPanel.Controls.Add(_statCard);
 
-            // ── DataGridView (Fill — PHẢI add SAU tất cả Docked controls) ─
             _grid = BuildGrid();
             _centerPanel.Controls.Add(_grid);
             _grid.BringToFront();
@@ -149,7 +121,6 @@ namespace ClientSinhVien
                 CellBorderStyle             = DataGridViewCellBorderStyle.SingleHorizontal,
             };
 
-            // Header style — nền đậm, chữ trắng, bold, căn giữa
             dg.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor          = Color.FromArgb(30, 34, 54),
@@ -160,8 +131,6 @@ namespace ClientSinhVien
                 Alignment          = DataGridViewContentAlignment.MiddleCenter,
                 Padding            = new Padding(0, 0, 0, 0),
             };
-
-            // Row style
             dg.DefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor          = ColorPalette.BG,
@@ -178,8 +147,6 @@ namespace ClientSinhVien
                 SelectionForeColor = ColorPalette.Text,
                 Padding            = new Padding(4, 0, 4, 0),
             };
-
-            // Columns — FillWeight tổng = 100
             dg.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "MSSV", HeaderText = "MSSV",
@@ -216,7 +183,6 @@ namespace ClientSinhVien
                 HeaderCell = { Style = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } },
             });
 
-            // Tô màu xếp loại
             dg.CellFormatting += (s, e) =>
             {
                 if (e.ColumnIndex == dg.Columns["XepLoai"].Index && e.Value != null)
@@ -225,8 +191,6 @@ namespace ClientSinhVien
                     e.CellStyle.Font      = new Font("Segoe UI", 9f, FontStyle.Bold);
                 }
             };
-
-            // Click chọn hàng → điền vào form
             dg.SelectionChanged += (s, e) =>
             {
                 if (dg.SelectedRows.Count == 0) return;
@@ -241,10 +205,6 @@ namespace ClientSinhVien
 
             return dg;
         }
-
-        // ══════════════════════════════════════════════════════════════════════
-        // WIRE EVENTS
-        // ══════════════════════════════════════════════════════════════════════
         private void WireEvents()
         {
             _sidebar.BtnConnect.Click += OnConnect;
@@ -265,10 +225,6 @@ namespace ClientSinhVien
             _topBar.TxtSearchDiem.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
             _topBar.TxtSearchLop.KeyDown  += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
         }
-
-        // ══════════════════════════════════════════════════════════════════════
-        // KẾT NỐI
-        // ══════════════════════════════════════════════════════════════════════
         private async void OnConnect(object sender, EventArgs e) // Khởi tạo 1 hàm bất đồng bộ
             //Luồng hoạt động 
             // 1. Kiểm tra xem client có đang kết nối với server chưa nếu đang kết nối thực hiện ngắt kết nối
@@ -294,8 +250,8 @@ namespace ClientSinhVien
             }
             catch (Exception ex)
             {
-                _sidebar.SetConnected(false); // Đảm bảo trạng thái giao diện là chưa kết nối nếu có lỗi
-                ShowToast("Lỗi kết nối: " + ex.Message, ColorPalette.Danger); // Hiển thị thông báo lỗi chi tiết
+                _sidebar.SetConnected(false); 
+                ShowToast("Lỗi kết nối: " + ex.Message, ColorPalette.Danger); 
             }
         }
 
@@ -303,6 +259,10 @@ namespace ClientSinhVien
         // LOAD / SORT
         // ══════════════════════════════════════════════════════════════════════
         private async Task LoadDataAsync()
+            //1.Gửi lệnh get lên server server trả về toàn bộ danh sách sinh viên
+            //2.Sau đó parse dữ liệu
+            //3.Và lưu vào biến cache
+            //4.Hiển thị lên bảng
         {
             try
             {
@@ -310,9 +270,10 @@ namespace ClientSinhVien
                 var items   = ParseResponse(resp); // Phân tích chuỗi dữ liệu phản hồi từ server thành danh sách đối tượng SinhVienItem
                 _cache.Update(items); // Cập nhật dữ liệu mới tải về vào bộ nhớ tạm (Cache) để dùng khi offline
                 BindGrid(items); // Hiển thị danh sách sinh viên lên bảng DataGridView
-                _statCard.Hide(); // Ẩn bảng thống kê số lượng (chỉ hiển thị khi tìm kiếm theo lớp)
-                UpdateCacheLabel(); // Cập nhật lại nhãn trạng thái hiển thị số lượng bộ nhớ đệm
+                _statCard.Hide(); 
+                UpdateCacheLabel();
             }
+            //Nếu mất mạng thì dữ liệu đã được lưu trong cache có thể lấy lên sử dụng
             catch
             {
                 if (_cache.HasData) // Nếu có lỗi mạng nhưng trong bộ nhớ đệm vẫn có dữ liệu
@@ -353,6 +314,9 @@ namespace ClientSinhVien
         // ══════════════════════════════════════════════════════════════════════
         private async void OnThem(object sender, EventArgs e)
         {
+
+            // Kiểm tra dữ liệu đầu vào nếu không hợp lệ thì dừng hàm
+            // Gửi lệnh add lên server và chờ server trả về phản hồi nếu ok thì ghi lại lịch sử trên log và reload lại dữ liệu
             if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return; // Kiểm tra tính hợp lệ của dữ liệu đầu vào. Nếu sai thì dừng hàm.
             try
             {
@@ -361,27 +325,27 @@ namespace ClientSinhVien
                 if (resp.StartsWith("OK")) // Nếu server trả về bắt đầu bằng "OK" nghĩa là thêm thành công
                 {
                     var entry = _log.Add(LogAction.Them, $"{mssv} — {hoTen} — Lớp {lop} — Điểm {diem}"); // Ghi lại lịch sử hành động thêm vào hệ thống log
-                    _logPanel.AppendEntry(entry); // Hiển thị dòng log lên giao diện bảng log
-                    ShowToast("Thêm sinh viên thành công!", ColorPalette.Success); // Thông báo thêm thành công
-                    _sidebar.Clear(); // Xóa trống các ô nhập liệu bên thanh công cụ
-                    _selectedMSSV = null; // Bỏ chọn sinh viên hiện tại
-                    if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); // Bỏ bôi đen dòng trên bảng DataGridView
+                    _logPanel.AppendEntry(entry); 
+                    ShowToast("Thêm sinh viên thành công!", ColorPalette.Success); 
+                    _sidebar.Clear(); 
+                    _selectedMSSV = null; 
+                    if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); 
                     await LoadDataAsync(); // Tải lại toàn bộ dữ liệu mới từ server về
                 }
-                else ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger); // Nếu có lỗi (ERROR), hiển thị lỗi do server trả về
+                else ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger);
             }
-            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); } // Hiển thị lỗi ngoại lệ nếu không gửi được
+            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); } 
         }
 
         private async void OnCapNhat(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_selectedMSSV)) // Kiểm tra xem người dùng đã chọn sinh viên trên bảng chưa
             {
-                ShowToast("Vui lòng chọn sinh viên từ danh sách để cập nhật.", ColorPalette.Warn); // Cảnh báo nếu chưa chọn
-                return; // Dừng hàm
+                ShowToast("Vui lòng chọn sinh viên từ danh sách để cập nhật.", ColorPalette.Warn); 
+                return; 
             }
 
-            if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return; // Kiểm tra các thông tin nhập liệu có đúng định dạng không
+            if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return; 
             
             if (mssv != _selectedMSSV) // Kiểm tra nếu người dùng cố ý sửa mã sinh viên (MSSV)
             {
@@ -495,6 +459,7 @@ namespace ClientSinhVien
         // XUẤT EXCEL
         // ══════════════════════════════════════════════════════════════════════
         private void OnExportExcel(object sender, EventArgs e)
+            // Lấy dữ liệu từ cache và xuất file
         {
             var items = _cache.GetAll();
             if (items.Count == 0) { ShowToast("Không có dữ liệu để xuất.", ColorPalette.Warn); return; }
@@ -519,11 +484,6 @@ namespace ClientSinhVien
             }
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        // HELPERS
-        // ══════════════════════════════════════════════════════════════════════
-
-        /// <summary>Parse response từ server thành List&lt;SinhVienItem&gt;.</summary>
         private List<SinhVienItem> ParseResponse(string resp)
         {
             var result = new List<SinhVienItem>();
