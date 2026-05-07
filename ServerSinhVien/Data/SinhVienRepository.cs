@@ -6,31 +6,26 @@ using ServerSinhVien.Models;
 
 namespace ServerSinhVien.Data
 {
-    /// <summary>
-    /// Chịu trách nhiệm để đọc/ghi file data.txt và quản lý List&lt;SinhVien&gt; trong RAM.
-    /// </summary>
     public class SinhVienRepository
     {
-        private readonly List<SinhVien> _ds   = new List<SinhVien>();
-        private readonly object         _lock = new object();
-        private readonly string         _file;
+        private readonly List<SinhVien> _ds = new List<SinhVien>();
+        private readonly object _lock = new object();
+        private readonly string _file;
 
         public SinhVienRepository()
         {
             _file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.txt");
         }
 
-        // ── Trả về lock object để Service dùng khi cần atomic operation ──────
+       
         public object Lock => _lock;
 
-        // ── Trả về bản sao danh sách (thread-safe) ────────────────────────────
         public List<SinhVien> GetAll()
         {
             lock (_lock)
                 return new List<SinhVien>(_ds);
         }
 
-        // ── Thêm sinh viên mới vào ────────────────────────────────────────────────────
         public void Add(SinhVien sv)
         {
             lock (_lock)
@@ -39,18 +34,16 @@ namespace ServerSinhVien.Data
                 Save();
             }
         }
-
-        // ── Cập nhật sinh viên (theo MSSV cũ) ────────────────────────────────
         public bool Update(string mssvCu, SinhVien svMoi)
         {
             lock (_lock)
             {
                 var old = _ds.Find(s => s.MSSV == mssvCu);
                 if (old == null) return false;
-                old.MSSV  = svMoi.MSSV;
+                old.MSSV = svMoi.MSSV;
                 old.HoTen = svMoi.HoTen;
-                old.Lop   = svMoi.Lop;
-                old.Diem  = svMoi.Diem;
+                old.Lop = svMoi.Lop;
+                old.Diem = svMoi.Diem;
                 Save();
                 return true;
             }
@@ -93,7 +86,7 @@ namespace ServerSinhVien.Data
             foreach (var line in File.ReadAllLines(_file, Encoding.UTF8))
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                try   { _ds.Add(SinhVien.FromString(line)); loaded++; }
+                try { _ds.Add(SinhVien.FromString(line)); loaded++; }
                 catch { skipped++; }
             }
             Log($"Đã load {loaded} sinh viên từ {_file}" +

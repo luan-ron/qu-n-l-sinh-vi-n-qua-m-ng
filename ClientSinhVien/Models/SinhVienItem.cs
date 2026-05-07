@@ -1,9 +1,5 @@
 namespace ClientSinhVien.Models
 {
-    /// <summary>
-    /// DTO dùng để binding vào DataGridView.
-    /// Không chứa business logic — chỉ là data holder.
-    /// </summary>
     public class SinhVienItem
     {
         public string MSSV    { get; set; }

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace ClientSinhVien.Controls
 {
-///acc
+
     public class GradientPanel : Panel
     {
         public Color Color1 { get; set; }

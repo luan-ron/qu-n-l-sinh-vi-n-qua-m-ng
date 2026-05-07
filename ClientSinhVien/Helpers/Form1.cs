@@ -15,43 +15,38 @@ namespace ClientSinhVien
 {
     public partial class Form1 : Form
     {
-        // ── Services ──────────────────────────────────────────────────────────
-        private readonly ServerConnection _conn    = new ServerConnection(); // dùng để kết nối và gửi dữ liệu tới server
-        private readonly CacheService     _cache   = new CacheService(); //lưu dữ liệu tạm khi mất mạng (offline)
-        private readonly LogService       _log     = new LogService(); //ghi lại lịch sử thao tác (thêm, sửa, xóa)
+        private readonly ServerConnection _conn = new ServerConnection();
+        private readonly CacheService _cache = new CacheService();
+        private readonly LogService _log = new LogService();
 
-        // ── Panels & Controls ─────────────────────────────────────────────────
-        private SidebarPanel  _sidebar;
-        private TopBarPanel   _topBar;
-        private LogPanel      _logPanel;
-        private StatCard      _statCard;
-        private DataGridView  _grid;
-        private ToastStrip    _toast;
-        private Label         _lblCacheStatus;
-        private Panel         _centerPanel;
-        private string        _selectedMSSV = null;
-
+        private SidebarPanel _sidebar;
+        private TopBarPanel _topBar;
+        private LogPanel _logPanel;
+        private StatCard _statCard;
+        private DataGridView _grid;
+        private ToastStrip _toast;
+        private Label _lblCacheStatus;
+        private Panel _centerPanel;
+        private string _selectedMSSV = null;
         public Form1()
         {
             InitializeComponent();
             BuildUI();
             WireEvents();
         }
-
         private void BuildUI()
         {
-            Text            = "Quản Lý Sinh Viên qua Mạng";
-            Size            = new Size(1180, 720);
-            MinimumSize     = new Size(900, 600);
-            StartPosition   = FormStartPosition.CenterScreen;
-            BackColor       = ColorPalette.BG;
-            Font            = new Font("Segoe UI", 9f);
+            Text = "Quản Lý Sinh Viên qua Mạng";
+            Size = new Size(1180, 720);
+            MinimumSize = new Size(900, 600);
+            StartPosition = FormStartPosition.CenterScreen;
+            BackColor = ColorPalette.BG;
+            Font = new Font("Segoe UI", 9f);
 
-            // ── Toast strip (top, docked) ─────────────────────────────────
             _toast = new ToastStrip
             {
-                Dock      = DockStyle.Top,
-                Height    = 0,
+                Dock = DockStyle.Top,
+                Height = 0,
                 BackColor = ColorPalette.Success,
             };
             Controls.Add(_toast);
@@ -60,7 +55,7 @@ namespace ClientSinhVien
             _sidebar = new SidebarPanel();
             Controls.Add(_sidebar);
 
- 
+
             _centerPanel = new Panel { Dock = DockStyle.Fill, BackColor = ColorPalette.BG };
             Controls.Add(_centerPanel);
             _centerPanel.BringToFront();
@@ -69,18 +64,18 @@ namespace ClientSinhVien
             _centerPanel.Controls.Add(_topBar);
             var bottomBar = new Panel
             {
-                Dock      = DockStyle.Bottom,
-                Height    = 24,
+                Dock = DockStyle.Bottom,
+                Height = 24,
                 BackColor = ColorPalette.Header,
             };
             _lblCacheStatus = new Label
             {
-                Text      = "Cache: trống",
-                Font      = new Font("Segoe UI", 8f),
+                Text = "Cache: trống",
+                Font = new Font("Segoe UI", 8f),
                 ForeColor = ColorPalette.SubText,
-                Dock      = DockStyle.Fill,
+                Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft,
-                Padding   = new Padding(12, 0, 0, 0),
+                Padding = new Padding(12, 0, 0, 0),
                 BackColor = Color.Transparent,
             };
             bottomBar.Controls.Add(_lblCacheStatus);
@@ -102,82 +97,87 @@ namespace ClientSinhVien
         {
             var dg = new DataGridView
             {
-                Dock                        = DockStyle.Fill,
-                BackgroundColor             = ColorPalette.BG,
-                GridColor                   = ColorPalette.Border,
-                BorderStyle                 = BorderStyle.None,
-                RowHeadersVisible           = false,
-                ColumnHeadersVisible        = true,
+                Dock = DockStyle.Fill,
+                BackgroundColor = ColorPalette.BG,
+                GridColor = ColorPalette.Border,
+                BorderStyle = BorderStyle.None,
+                RowHeadersVisible = false,
+                ColumnHeadersVisible = true,
                 ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing,
-                ColumnHeadersHeight         = 38,
-                AllowUserToAddRows          = false,
-                AllowUserToDeleteRows       = false,
-                ReadOnly                    = true,
-                SelectionMode               = DataGridViewSelectionMode.FullRowSelect,
-                AutoSizeColumnsMode         = DataGridViewAutoSizeColumnsMode.Fill,
-                RowTemplate                 = { Height = 34 },
-                Font                        = new Font("Segoe UI", 9.5f),
-                EnableHeadersVisualStyles   = false,
-                CellBorderStyle             = DataGridViewCellBorderStyle.SingleHorizontal,
+                ColumnHeadersHeight = 38,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                ReadOnly = true,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                RowTemplate = { Height = 34 },
+                Font = new Font("Segoe UI", 9.5f),
+                EnableHeadersVisualStyles = false,
+                CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
             };
 
             dg.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
-                BackColor          = Color.FromArgb(30, 34, 54),
-                ForeColor          = Color.FromArgb(200, 210, 255),
-                Font               = new Font("Segoe UI", 9.5f, FontStyle.Bold),
+                BackColor = Color.FromArgb(30, 34, 54),
+                ForeColor = Color.FromArgb(200, 210, 255),
+                Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 SelectionBackColor = Color.FromArgb(30, 34, 54),
                 SelectionForeColor = Color.FromArgb(200, 210, 255),
-                Alignment          = DataGridViewContentAlignment.MiddleCenter,
-                Padding            = new Padding(0, 0, 0, 0),
+                Alignment = DataGridViewContentAlignment.MiddleCenter,
+                Padding = new Padding(0, 0, 0, 0),
             };
             dg.DefaultCellStyle = new DataGridViewCellStyle
             {
-                BackColor          = ColorPalette.BG,
-                ForeColor          = ColorPalette.Text,
+                BackColor = ColorPalette.BG,
+                ForeColor = ColorPalette.Text,
                 SelectionBackColor = ColorPalette.RowSel,
                 SelectionForeColor = ColorPalette.Text,
-                Padding            = new Padding(4, 0, 4, 0),
+                Padding = new Padding(4, 0, 4, 0),
             };
             dg.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
             {
-                BackColor          = ColorPalette.RowAlt,
-                ForeColor          = ColorPalette.Text,
+                BackColor = ColorPalette.RowAlt,
+                ForeColor = ColorPalette.Text,
                 SelectionBackColor = ColorPalette.RowSel,
                 SelectionForeColor = ColorPalette.Text,
-                Padding            = new Padding(4, 0, 4, 0),
+                Padding = new Padding(4, 0, 4, 0),
             };
             dg.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "MSSV", HeaderText = "MSSV",
+                Name = "MSSV",
+                HeaderText = "MSSV",
                 FillWeight = 20,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },
                 HeaderCell = { Style = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } },
             });
             dg.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "HoTen", HeaderText = "Họ và Tên",
+                Name = "HoTen",
+                HeaderText = "Họ và Tên",
                 FillWeight = 40,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleLeft },
                 HeaderCell = { Style = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleLeft } },
             });
             dg.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "Lop", HeaderText = "Lớp",
+                Name = "Lop",
+                HeaderText = "Lớp",
                 FillWeight = 18,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },
                 HeaderCell = { Style = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } },
             });
             dg.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "Diem", HeaderText = "Điểm TB",
+                Name = "Diem",
+                HeaderText = "Điểm TB",
                 FillWeight = 15,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },
                 HeaderCell = { Style = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } },
             });
             dg.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = "XepLoai", HeaderText = "Xếp Loại",
+                Name = "XepLoai",
+                HeaderText = "Xếp Loại",
                 FillWeight = 17,
                 DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter },
                 HeaderCell = { Style = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter } },
@@ -188,7 +188,7 @@ namespace ClientSinhVien
                 if (e.ColumnIndex == dg.Columns["XepLoai"].Index && e.Value != null)
                 {
                     e.CellStyle.ForeColor = GradeService.GetGradeColor(e.Value.ToString());
-                    e.CellStyle.Font      = new Font("Segoe UI", 9f, FontStyle.Bold);
+                    e.CellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold);
                 }
             };
             dg.SelectionChanged += (s, e) =>
@@ -199,8 +199,8 @@ namespace ClientSinhVien
                 _sidebar.Fill(
                     _selectedMSSV,
                     row.Cells["HoTen"].Value?.ToString() ?? "",
-                    row.Cells["Lop"].Value?.ToString()   ?? "",
-                    row.Cells["Diem"].Value?.ToString()  ?? "");
+                    row.Cells["Lop"].Value?.ToString() ?? "",
+                    row.Cells["Diem"].Value?.ToString() ?? "");
             };
 
             return dg;
@@ -208,80 +208,67 @@ namespace ClientSinhVien
         private void WireEvents()
         {
             _sidebar.BtnConnect.Click += OnConnect;
-            _sidebar.BtnThem.Click    += OnThem;
+            _sidebar.BtnThem.Click += OnThem;
             _sidebar.BtnCapNhat.Click += OnCapNhat;
-            _sidebar.BtnXoa.Click     += OnXoa;
-            _sidebar.BtnXoaForm.Click += (s, e) => {
+            _sidebar.BtnXoa.Click += OnXoa;
+            _sidebar.BtnXoaForm.Click += (s, e) =>
+            {
                 _sidebar.Clear();
                 _selectedMSSV = null;
                 if (_grid.SelectedRows.Count > 0) _grid.ClearSelection();
             };
 
-            _topBar.BtnLoad.Click  += (s, e) => _ = LoadDataAsync();
-            _topBar.BtnSort.Click  += OnSort;
+            _topBar.BtnLoad.Click += (s, e) => _ = LoadDataAsync();
+            _topBar.BtnSort.Click += OnSort;
             _topBar.BtnExcel.Click += OnExportExcel;
 
-            _topBar.TxtSearch.KeyDown     += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
+            _topBar.TxtSearch.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
             _topBar.TxtSearchDiem.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
-            _topBar.TxtSearchLop.KeyDown  += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
+            _topBar.TxtSearchLop.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.Handled = true; e.SuppressKeyPress = true; _ = ApplyFiltersAsync(); } };
         }
-        private async void OnConnect(object sender, EventArgs e) // Khởi tạo 1 hàm bất đồng bộ
-            //Luồng hoạt động 
-            // 1. Kiểm tra xem client có đang kết nối với server chưa nếu đang kết nối thực hiện ngắt kết nối
-            
+        private async void OnConnect(object sender, EventArgs e) 
         {
-            if (_conn.IsConnected) 
+            if (_conn.IsConnected)
             {
-                _conn.Disconnect(); 
+                _conn.Disconnect();
                 _sidebar.SetConnected(false);
-                ShowToast("Đã ngắt kết nối.", ColorPalette.Warn); 
-                return; // Kết thúc hàm
+                ShowToast("Đã ngắt kết nối.", ColorPalette.Warn);
+                return; 
             }
-            // 2. Và sau đó gọi hàm conn.connectAsync kết nối đến host và port trên giao diện
-            // 3. Sau khi kết nối thành công thì gọi hàm LoadDataAsync để hiển thị bảng sinh viên ngay sau khi kết nối
             try
             {
-                ShowToast("Đang kết nối...", ColorPalette.Accent); 
-                await _conn.ConnectAsync(_sidebar.TxtHost.Text.Trim(), int.Parse(_sidebar.TxtPort.Text.Trim())); 
-                _sidebar.SetConnected(true); 
-                ShowToast("Kết nối thành công!", ColorPalette.Success); 
-
-                await LoadDataAsync(); 
+                ShowToast("Đang kết nối...", ColorPalette.Accent);
+                await _conn.ConnectAsync(_sidebar.TxtHost.Text.Trim(), int.Parse(_sidebar.TxtPort.Text.Trim()));
+                _sidebar.SetConnected(true);
+                ShowToast("Kết nối thành công!", ColorPalette.Success);
+                await LoadDataAsync();
             }
             catch (Exception ex)
             {
-                _sidebar.SetConnected(false); 
-                ShowToast("Lỗi kết nối: " + ex.Message, ColorPalette.Danger); 
+                _sidebar.SetConnected(false);
+                ShowToast("Lỗi kết nối: " + ex.Message, ColorPalette.Danger);
             }
         }
-
-        // ══════════════════════════════════════════════════════════════════════
-        // LOAD / SORT
-        // ══════════════════════════════════════════════════════════════════════
         private async Task LoadDataAsync()
-            //1.Gửi lệnh get lên server server trả về toàn bộ danh sách sinh viên
-            //2.Sau đó parse dữ liệu
-            //3.Và lưu vào biến cache
-            //4.Hiển thị lên bảng
         {
             try
             {
-                string resp = await _conn.SendAsync("GET\n"); // Gửi lệnh "GET\n" tới server để lấy toàn bộ danh sách sinh viên
-                var items   = ParseResponse(resp); // Phân tích chuỗi dữ liệu phản hồi từ server thành danh sách đối tượng SinhVienItem
-                _cache.Update(items); // Cập nhật dữ liệu mới tải về vào bộ nhớ tạm (Cache) để dùng khi offline
-                BindGrid(items); // Hiển thị danh sách sinh viên lên bảng DataGridView
-                _statCard.Hide(); 
+                string resp = await _conn.SendAsync("GET\n"); 
+                var items = ParseResponse(resp); 
+                _cache.Update(items); 
+                BindGrid(items); 
+                _statCard.Hide();
                 UpdateCacheLabel();
             }
-            //Nếu mất mạng thì dữ liệu đã được lưu trong cache có thể lấy lên sử dụng
+           
             catch
             {
-                if (_cache.HasData) // Nếu có lỗi mạng nhưng trong bộ nhớ đệm vẫn có dữ liệu
+                if (_cache.HasData) 
                 {
-                    BindGrid(_cache.GetAll()); // Hiển thị danh sách từ bộ nhớ đệm lên giao diện
-                    ShowToast("Mất kết nối — đang hiển thị dữ liệu cache.", ColorPalette.Warn); // Thông báo cho người dùng biết đang dùng dữ liệu offline
+                    BindGrid(_cache.GetAll()); 
+                    ShowToast("Mất kết nối — đang hiển thị dữ liệu cache.", ColorPalette.Warn);
                 }
-                else ShowToast("Không thể tải dữ liệu.", ColorPalette.Danger); // Nếu cache cũng rỗng thì báo lỗi không tải được dữ liệu
+                else ShowToast("Không thể tải dữ liệu.", ColorPalette.Danger); 
             }
         }
 
@@ -289,186 +276,175 @@ namespace ClientSinhVien
         {
             try
             {
-                string dir  = _topBar.SortAscending ? "asc" : "desc"; // Xác định hướng sắp xếp: asc (tăng dần) hoặc desc (giảm dần) dựa vào nút bấm
-                string resp = await _conn.SendAsync($"GETSORTED;{dir}\n"); // Gửi lệnh "GETSORTED;hướng" lên server để yêu cầu server trả về dữ liệu đã sắp xếp
-                var items   = ParseResponse(resp); // Phân tích chuỗi trả về thành danh sách sinh viên
-                _cache.Update(items); // Cập nhật dữ liệu đã sắp xếp vào bộ nhớ đệm
-                BindGrid(items); // Hiển thị dữ liệu lên bảng
-                UpdateCacheLabel(); // Cập nhật trạng thái bộ nhớ đệm
+                string dir = _topBar.SortAscending ? "asc" : "desc"; 
+                string resp = await _conn.SendAsync($"GETSORTED;{dir}\n"); 
+                var items = ParseResponse(resp); 
+                _cache.Update(items); 
+                BindGrid(items); 
+                UpdateCacheLabel(); 
                 ShowToast($"Đã sắp xếp theo Lớp {(dir == "asc" ? "A→Z" : "Z→A")}.", ColorPalette.Accent); // Thông báo thành công
             }
             catch (Exception ex)
             {
-                // Fallback: sort từ cache nếu rớt mạng
-                var sorted = _cache.GetAll(); // Lấy dữ liệu hiện tại từ bộ nhớ đệm
-                sorted = _topBar.SortAscending // Nếu đang muốn sắp xếp tăng dần
-                    ? sorted.OrderBy(x => x.Lop, StringComparer.OrdinalIgnoreCase).ToList() // Sắp xếp list offline theo Lớp tăng dần
-                    : sorted.OrderByDescending(x => x.Lop, StringComparer.OrdinalIgnoreCase).ToList(); // Sắp xếp list offline theo Lớp giảm dần
-                BindGrid(sorted); // Cập nhật lại giao diện bảng với dữ liệu đã sắp xếp offline
-                ShowToast("Sort từ cache (offline): " + ex.Message, ColorPalette.Warn); // Thông báo đang sử dụng chế độ offline
+                
+                var sorted = _cache.GetAll(); 
+                sorted = _topBar.SortAscending 
+                    ? sorted.OrderBy(x => x.Lop, StringComparer.OrdinalIgnoreCase).ToList() 
+                    : sorted.OrderByDescending(x => x.Lop, StringComparer.OrdinalIgnoreCase).ToList(); 
+                BindGrid(sorted); 
+                ShowToast("Sort từ cache (offline): " + ex.Message, ColorPalette.Warn); 
             }
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        // THÊM / CẬP NHẬT / XÓA
-        // ══════════════════════════════════════════════════════════════════════
+        
         private async void OnThem(object sender, EventArgs e)
         {
-
-            // Kiểm tra dữ liệu đầu vào nếu không hợp lệ thì dừng hàm
-            // Gửi lệnh add lên server và chờ server trả về phản hồi nếu ok thì ghi lại lịch sử trên log và reload lại dữ liệu
-            if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return; // Kiểm tra tính hợp lệ của dữ liệu đầu vào. Nếu sai thì dừng hàm.
+            if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return; 
             try
             {
-                string cmd  = $"ADD;{mssv}|{hoTen}|{lop}|{diem.ToString(CultureInfo.InvariantCulture)}\n"; // Tạo lệnh "ADD;Mã|Tên|Lớp|Điểm"
-                string resp = await _conn.SendAsync(cmd); // Gửi lệnh yêu cầu thêm sinh viên lên server và chờ phản hồi
-                if (resp.StartsWith("OK")) // Nếu server trả về bắt đầu bằng "OK" nghĩa là thêm thành công
+                string cmd = $"ADD;{mssv}|{hoTen}|{lop}|{diem.ToString(CultureInfo.InvariantCulture)}\n"; 
+                string resp = await _conn.SendAsync(cmd); 
+                if (resp.StartsWith("OK")) 
                 {
-                    var entry = _log.Add(LogAction.Them, $"{mssv} — {hoTen} — Lớp {lop} — Điểm {diem}"); // Ghi lại lịch sử hành động thêm vào hệ thống log
-                    _logPanel.AppendEntry(entry); 
-                    ShowToast("Thêm sinh viên thành công!", ColorPalette.Success); 
-                    _sidebar.Clear(); 
-                    _selectedMSSV = null; 
-                    if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); 
-                    await LoadDataAsync(); // Tải lại toàn bộ dữ liệu mới từ server về
+                    var entry = _log.Add(LogAction.Them, $"{mssv} — {hoTen} — Lớp {lop} — Điểm {diem}"); 
+                    _logPanel.AppendEntry(entry);
+                    ShowToast("Thêm sinh viên thành công!", ColorPalette.Success);
+                    _sidebar.Clear();
+                    _selectedMSSV = null;
+                    if (_grid.SelectedRows.Count > 0) _grid.ClearSelection();
+                    await LoadDataAsync(); 
                 }
                 else ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger);
             }
-            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); } 
+            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); }
         }
 
         private async void OnCapNhat(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_selectedMSSV)) // Kiểm tra xem người dùng đã chọn sinh viên trên bảng chưa
+            if (string.IsNullOrEmpty(_selectedMSSV)) 
             {
-                ShowToast("Vui lòng chọn sinh viên từ danh sách để cập nhật.", ColorPalette.Warn); 
-                return; 
+                ShowToast("Vui lòng chọn sinh viên từ danh sách để cập nhật.", ColorPalette.Warn);
+                return;
             }
 
-            if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return; 
-            
-            if (mssv != _selectedMSSV) // Kiểm tra nếu người dùng cố ý sửa mã sinh viên (MSSV)
+            if (!ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)) return;
+
+            if (mssv != _selectedMSSV) 
             {
-                ShowToast("Không được phép thay đổi ID. Chỉ được đổi tên, lớp, điểm.", ColorPalette.Danger); // Cảnh báo không cho phép đổi MSSV
-                _sidebar.TxtMSSV.Text = _selectedMSSV; // Trả lại mã MSSV ban đầu vào ô textbox
-                return; // Dừng hàm
+                ShowToast("Không được phép thay đổi ID. Chỉ được đổi tên, lớp, điểm.", ColorPalette.Danger); 
+                _sidebar.TxtMSSV.Text = _selectedMSSV; 
+                return;
             }
 
             try
             {
-                string cmd = $"UPDATE;{mssv}|{hoTen}|{lop}|{diem.ToString(CultureInfo.InvariantCulture)}\n"; // Tạo lệnh "UPDATE;Mã|Tên|Lớp|Điểm"
-                string resp = await _conn.SendAsync(cmd); // Gửi lệnh cập nhật lên server
-                if (resp.StartsWith("OK")) // Nếu server cập nhật thành công và trả về OK
+                string cmd = $"UPDATE;{mssv}|{hoTen}|{lop}|{diem.ToString(CultureInfo.InvariantCulture)}\n"; 
+                string resp = await _conn.SendAsync(cmd); 
+                if (resp.StartsWith("OK")) 
                 {
-                    var entry = _log.Add(LogAction.CapNhat, $"{mssv} — {hoTen} — Lớp {lop} — Điểm {diem}"); // Ghi log hành động cập nhật
-                    _logPanel.AppendEntry(entry); // Hiện log lên màn hình
-                    ShowToast("Cập nhật thành công!", ColorPalette.Success); // Thông báo thành công
+                    var entry = _log.Add(LogAction.CapNhat, $"{mssv} — {hoTen} — Lớp {lop} — Điểm {diem}");
+                    _logPanel.AppendEntry(entry); 
+                    ShowToast("Cập nhật thành công!", ColorPalette.Success); 
                 }
-                else { ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger); return; } // Nếu thất bại, thông báo lỗi từ server và dừng hàm
-                _sidebar.Clear(); // Xóa sạch các trường nhập liệu
-                _selectedMSSV = null; // Bỏ chọn sinh viên hiện tại
-                if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); // Bỏ chọn dòng trên bảng
-                await LoadDataAsync(); // Tải lại danh sách từ server để làm mới bảng
+                else { ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger); return; } 
+                _sidebar.Clear(); 
+                _selectedMSSV = null; 
+                if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); 
+                await LoadDataAsync(); 
             }
-            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); } // Thông báo nếu bị lỗi mạng
+            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); }
         }
 
         private async void OnXoa(object sender, EventArgs e)
         {
-            string mssv = _sidebar.TxtMSSV.Text.Trim(); // Lấy mã số sinh viên từ ô nhập liệu
-            if (string.IsNullOrEmpty(mssv)) { ShowToast("Chưa chọn sinh viên cần xóa.", ColorPalette.Warn); return; } // Báo lỗi nếu mã trống
+            string mssv = _sidebar.TxtMSSV.Text.Trim();
+            if (string.IsNullOrEmpty(mssv)) { ShowToast("Chưa chọn sinh viên cần xóa.", ColorPalette.Warn); return; } 
 
             if (MessageBox.Show($"Xóa sinh viên {mssv}?", "Xác nhận",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return; // Hiển thị hộp thoại xác nhận. Nếu chọn No thì hủy bỏ.
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) return; 
             try
             {
-                string resp = await _conn.SendAsync($"DELETE;{mssv}\n"); // Gửi lệnh "DELETE;Mã" lên server
-                if (resp.StartsWith("OK")) // Nếu server xóa thành công
+                string resp = await _conn.SendAsync($"DELETE;{mssv}\n"); 
+                if (resp.StartsWith("OK")) 
                 {
-                    var entry = _log.Add(LogAction.Xoa, $"{mssv} — {_sidebar.TxtHoTen.Text.Trim()}"); // Ghi log thao tác xóa
-                    _logPanel.AppendEntry(entry); // Cập nhật log lên giao diện
-                    ShowToast("Xóa thành công!", ColorPalette.Success); // Báo thành công
-                    _sidebar.Clear(); // Xóa form nhập liệu
-                    _selectedMSSV = null; // Xóa trạng thái đang chọn
-                    if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); // Xóa bôi đen trên bảng
-                    await LoadDataAsync(); // Tải lại toàn bộ dữ liệu mới nhất
+                    var entry = _log.Add(LogAction.Xoa, $"{mssv} — {_sidebar.TxtHoTen.Text.Trim()}"); 
+                    _logPanel.AppendEntry(entry); 
+                    ShowToast("Xóa thành công!", ColorPalette.Success); 
+                    _sidebar.Clear(); 
+                    _selectedMSSV = null; 
+                    if (_grid.SelectedRows.Count > 0) _grid.ClearSelection(); 
+                    await LoadDataAsync(); 
                 }
-                else ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger); // Nếu có lỗi từ server, in ra
+                else ShowToast(resp.Replace("ERROR;", ""), ColorPalette.Danger); 
             }
-            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); } // In lỗi khi lỗi mạng
+            catch (Exception ex) { ShowToast("Lỗi: " + ex.Message, ColorPalette.Danger); } 
         }
-
-        // ══════════════════════════════════════════════════════════════════════
-        // TÌM KIẾM (Combined Filters)
-        // ══════════════════════════════════════════════════════════════════════
         private async Task ApplyFiltersAsync()
         {
-            string kw = _topBar.TxtSearch.Text.Trim(); // Lấy từ khóa tìm kiếm (tên hoặc MSSV)
-            string lop = _topBar.TxtSearchLop.Text.Trim(); // Lấy thông tin lớp để lọc
-            string diemInput = _topBar.TxtSearchDiem.Text.Trim(); // Lấy khoảng điểm hoặc điểm chính xác để lọc
+            string kw = _topBar.TxtSearch.Text.Trim(); 
+            string lop = _topBar.TxtSearchLop.Text.Trim();
+            string diemInput = _topBar.TxtSearchDiem.Text.Trim(); 
 
-            float min = 0f, max = 10f; // Mặc định điểm min là 0, max là 10
-            if (!string.IsNullOrEmpty(diemInput)) // Nếu người dùng có nhập điểm cần lọc
+            float min = 0f, max = 10f; 
+            if (!string.IsNullOrEmpty(diemInput)) 
             {
-                diemInput = diemInput.Replace(" ", ""); // Xóa các dấu cách thừa
+                diemInput = diemInput.Replace(" ", ""); 
                 try
                 {
-                    if (diemInput.Contains("-")) // Nếu định dạng là từ A-B (VD: 5-8)
+                    if (diemInput.Contains("-")) 
                     {
-                        var p = diemInput.Split('-'); // Cắt chuỗi bởi dấu trừ
-                        min = float.Parse(p[0], CultureInfo.InvariantCulture); // Lấy số thứ nhất làm điểm tối thiểu
-                        max = float.Parse(p[1], CultureInfo.InvariantCulture); // Lấy số thứ hai làm điểm tối đa
+                        var p = diemInput.Split('-'); 
+                        min = float.Parse(p[0], CultureInfo.InvariantCulture); 
+                        max = float.Parse(p[1], CultureInfo.InvariantCulture); 
                     }
-                    else if (diemInput.StartsWith(">=")) // Nếu có dấu >= (VD: >=5)
-                        min = float.Parse(diemInput.Substring(2), CultureInfo.InvariantCulture); // Lấy phần số làm min
-                    else if (diemInput.StartsWith("<=")) // Nếu có dấu <=
-                        max = float.Parse(diemInput.Substring(2), CultureInfo.InvariantCulture); // Lấy phần số làm max
-                    else if (diemInput.StartsWith(">")) // Nếu có dấu >
-                        min = float.Parse(diemInput.Substring(1), CultureInfo.InvariantCulture) + 0.01f; // Tăng min lên 0.01 để loại trừ điểm bằng
-                    else if (diemInput.StartsWith("<")) // Nếu có dấu <
-                        max = float.Parse(diemInput.Substring(1), CultureInfo.InvariantCulture) - 0.01f; // Giảm max xuống 0.01
+                    else if (diemInput.StartsWith(">=")) 
+                        min = float.Parse(diemInput.Substring(2), CultureInfo.InvariantCulture); 
+                    else if (diemInput.StartsWith("<=")) 
+                        max = float.Parse(diemInput.Substring(2), CultureInfo.InvariantCulture); 
+                    else if (diemInput.StartsWith(">"))
+                        min = float.Parse(diemInput.Substring(1), CultureInfo.InvariantCulture) + 0.01f; 
+                    else if (diemInput.StartsWith("<")) 
+                        max = float.Parse(diemInput.Substring(1), CultureInfo.InvariantCulture) - 0.01f; 
                     else
-                        min = max = float.Parse(diemInput, CultureInfo.InvariantCulture); // Tìm chính xác một mức điểm
+                        min = max = float.Parse(diemInput, CultureInfo.InvariantCulture); 
                 }
                 catch
                 {
-                    ShowToast("Định dạng điểm không hợp lệ. Vd: 7.0-9.0", ColorPalette.Warn); // Báo lỗi nếu parse số thất bại
-                    return; // Thoát hàm nếu nhập điểm sai định dạng
+                    ShowToast("Định dạng điểm không hợp lệ. Vd: 7.0-9.0", ColorPalette.Warn); 
+                    return; 
                 }
             }
 
             try
             {
-                string cmd = $"SEARCHMULTI;{kw}|{min.ToString(CultureInfo.InvariantCulture)}|{max.ToString(CultureInfo.InvariantCulture)}|{lop}\n"; // Ghép lệnh "SEARCHMULTI;từ_khóa|min|max|lớp"
-                string resp = await _conn.SendAsync(cmd); // Gửi lệnh tìm kiếm lên server
-                var items = ParseResponse(resp); // Phân tích chuỗi trả về thành danh sách sinh viên khớp điều kiện
-                _cache.Update(items); // Cập nhật danh sách này vào cache
-                BindGrid(items); // Gắn danh sách lên DataGridView
-                if (!string.IsNullOrEmpty(lop)) _statCard.Update(lop, items); // Nếu có tìm theo lớp, hiển thị thống kê học lực của lớp đó
-                else _statCard.Hide(); // Nếu không, ẩn thanh thống kê đi
-                UpdateCacheLabel(); // Cập nhật nhãn thống kê bộ nhớ đệm
-                ShowToast($"Đã tìm thấy {items.Count} sinh viên thỏa mãn điều kiện.", ColorPalette.Accent); // Thông báo số lượng tìm được
+                string cmd = $"SEARCHMULTI;{kw}|{min.ToString(CultureInfo.InvariantCulture)}|{max.ToString(CultureInfo.InvariantCulture)}|{lop}\n"; 
+                string resp = await _conn.SendAsync(cmd); 
+                var items = ParseResponse(resp); 
+                _cache.Update(items); 
+                BindGrid(items); 
+                if (!string.IsNullOrEmpty(lop)) _statCard.Update(lop, items); 
+                else _statCard.Hide(); 
+                UpdateCacheLabel(); 
+                ShowToast($"Đã tìm thấy {items.Count} sinh viên thỏa mãn điều kiện.", ColorPalette.Accent); 
             }
             catch (Exception ex)
             {
-                ShowToast("Lỗi tìm kiếm: " + ex.Message, ColorPalette.Danger); // Thông báo lỗi nếu thất bại
+                ShowToast("Lỗi tìm kiếm: " + ex.Message, ColorPalette.Danger);
             }
         }
 
-        // ══════════════════════════════════════════════════════════════════════
-        // XUẤT EXCEL
-        // ══════════════════════════════════════════════════════════════════════
+        
         private void OnExportExcel(object sender, EventArgs e)
-            // Lấy dữ liệu từ cache và xuất file
+       
         {
             var items = _cache.GetAll();
             if (items.Count == 0) { ShowToast("Không có dữ liệu để xuất.", ColorPalette.Warn); return; }
 
             using (var dlg = new SaveFileDialog
             {
-                Title      = "Xuất danh sách sinh viên",
-                Filter     = "Excel files (*.xlsx)|*.xlsx",
-                FileName   = $"SinhVien_{DateTime.Now:yyyyMMdd_HHmm}.xlsx",
+                Title = "Xuất danh sách sinh viên",
+                Filter = "Excel files (*.xlsx)|*.xlsx",
+                FileName = $"SinhVien_{DateTime.Now:yyyyMMdd_HHmm}.xlsx",
             })
             {
                 if (dlg.ShowDialog() != DialogResult.OK) return;
@@ -496,17 +472,15 @@ namespace ClientSinhVien
                 float.TryParse(p[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out float d);
                 result.Add(new SinhVienItem
                 {
-                    MSSV    = p[0].Trim(),
-                    HoTen   = p[1].Trim(),
-                    Lop     = p[2].Trim(),
-                    Diem    = d.ToString("F2", CultureInfo.InvariantCulture),
+                    MSSV = p[0].Trim(),
+                    HoTen = p[1].Trim(),
+                    Lop = p[2].Trim(),
+                    Diem = d.ToString("F2", CultureInfo.InvariantCulture),
                     XepLoai = GradeService.GetGrade(d),
                 });
             }
             return result;
         }
-
-        /// <summary>Bind danh sách vào DataGridView (thread-safe).</summary>
         private void BindGrid(List<SinhVienItem> items)
         {
             if (InvokeRequired) { Invoke((Action)(() => BindGrid(items))); return; }
@@ -514,18 +488,16 @@ namespace ClientSinhVien
             foreach (var sv in items)
                 _grid.Rows.Add(sv.MSSV, sv.HoTen, sv.Lop, sv.Diem, sv.XepLoai);
         }
-
-        /// <summary>Validate fields nhập liệu.</summary>
         private bool ValidateFields(out string mssv, out string hoTen, out string lop, out float diem)
         {
-            mssv  = _sidebar.TxtMSSV.Text.Trim();
+            mssv = _sidebar.TxtMSSV.Text.Trim();
             hoTen = _sidebar.TxtHoTen.Text.Trim();
-            lop   = _sidebar.TxtLop.Text.Trim();
-            diem  = 0;
+            lop = _sidebar.TxtLop.Text.Trim();
+            diem = 0;
 
-            if (string.IsNullOrEmpty(mssv))  { ShowToast("Vui lòng nhập MSSV.",     ColorPalette.Warn); return false; }
-            if (string.IsNullOrEmpty(hoTen)) { ShowToast("Vui lòng nhập Họ tên.",   ColorPalette.Warn); return false; }
-            if (string.IsNullOrEmpty(lop))   { ShowToast("Vui lòng nhập Lớp.",      ColorPalette.Warn); return false; }
+            if (string.IsNullOrEmpty(mssv)) { ShowToast("Vui lòng nhập MSSV.", ColorPalette.Warn); return false; }
+            if (string.IsNullOrEmpty(hoTen)) { ShowToast("Vui lòng nhập Họ tên.", ColorPalette.Warn); return false; }
+            if (string.IsNullOrEmpty(lop)) { ShowToast("Vui lòng nhập Lớp.", ColorPalette.Warn); return false; }
             if (!float.TryParse(_sidebar.TxtDiem.Text.Trim(), NumberStyles.Any,
                     CultureInfo.InvariantCulture, out diem) || diem < 0 || diem > 10)
             {
@@ -533,14 +505,12 @@ namespace ClientSinhVien
             }
             return true;
         }
-
-        /// <summary>Hiển thị toast bar tự ẩn sau 3 giây.</summary>
         private void ShowToast(string msg, Color color)
         {
             if (InvokeRequired) { Invoke((Action)(() => ShowToast(msg, color))); return; }
-            _toast.Msg       = msg;
+            _toast.Msg = msg;
             _toast.BackColor = color;
-            _toast.Height    = 28;
+            _toast.Height = 28;
             _toast.Invalidate();
 
             var timer = new Timer { Interval = 3000 };

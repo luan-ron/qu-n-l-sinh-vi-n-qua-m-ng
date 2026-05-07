@@ -6,11 +6,7 @@ using ServerSinhVien.Data;
 using ServerSinhVien.Network;
 using ServerSinhVien.Services;
 
-    /// <summary>
-    ///File: Program.cs
-    ///Chức năng: Entry point (điểm bắt đầu) của Server.
-    /// Khởi động TcpListener, lắng nghe kết nối từ Client, theo dõi số lượng Client đang hoạt động.
-    /// </summary>
+ 
     class Program
     {
         public static int ActiveClients = 0;

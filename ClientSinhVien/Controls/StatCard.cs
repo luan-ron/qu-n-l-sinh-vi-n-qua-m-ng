@@ -8,11 +8,7 @@ using ClientSinhVien.Services;
 
 namespace ClientSinhVien.Controls
 {
-    /// <summary>
-    /// Card thống kê hiển thị khi tìm kiếm theo Lớp (Yêu cầu 6b).
-    /// Hiển thị: tên lớp, tổng SV, ĐTB, phân bố xếp loại.
-    /// Ẩn khi tìm kiếm thông thường.
-    /// </summary>
+
     public class StatCard : Panel
     {
         private Label _lblLine1;
@@ -52,7 +48,6 @@ namespace ClientSinhVien.Controls
                 e.Graphics.DrawLine(new Pen(ColorPalette.Border), 0, Height - 1, Width, Height - 1);
         }
 
-        /// <summary>Cập nhật card với danh sách sinh viên của lớp vừa tìm.</summary>
         public void Update(string tenLop, List<SinhVienItem> items)
         {
             if (items == null || items.Count == 0)
