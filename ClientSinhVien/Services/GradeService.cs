@@ -3,10 +3,7 @@ using ClientSinhVien.Helpers;
 
 namespace ClientSinhVien.Services
 {
-    /// <summary>
-    /// Tính xếp loại từ điểm số.
-    /// Tất cả logic liên quan đến điểm/xếp loại tập trung tại đây.
-    /// </summary>
+
     public static class GradeService
     {
         public static string GetGrade(float diem)
@@ -31,7 +28,7 @@ namespace ClientSinhVien.Services
             }
         }
 
-        /// <summary>Trả về hex color string cho EPPlus/ClosedXML (không có #)</summary>
+       
         public static string GetGradeHex(string xepLoai)
         {
             switch (xepLoai)

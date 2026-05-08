@@ -16,27 +16,27 @@ namespace ClientSinhVien.Controls
 
         public StatCard()
         {
-            BackColor   = ColorPalette.Card;
-            Height      = 56;
-            Dock        = DockStyle.Top;
-            Padding     = new Padding(16, 8, 16, 8);
-            Visible     = false;
+            BackColor = ColorPalette.Card;
+            Height = 56;
+            Dock = DockStyle.Top;
+            Padding = new Padding(16, 8, 16, 8);
+            Visible = false;
 
             _lblLine1 = new Label
             {
-                AutoSize  = false,
-                Dock      = DockStyle.Top,
-                Height    = 20,
-                Font      = new Font("Segoe UI", 9.5f, FontStyle.Bold),
+                AutoSize = false,
+                Dock = DockStyle.Top,
+                Height = 20,
+                Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 ForeColor = ColorPalette.Text,
                 BackColor = Color.Transparent,
             };
             _lblLine2 = new Label
             {
-                AutoSize  = false,
-                Dock      = DockStyle.Top,
-                Height    = 20,
-                Font      = new Font("Segoe UI", 9f),
+                AutoSize = false,
+                Dock = DockStyle.Top,
+                Height = 20,
+                Font = new Font("Segoe UI", 9f),
                 ForeColor = ColorPalette.SubText,
                 BackColor = Color.Transparent,
             };
@@ -64,10 +64,10 @@ namespace ClientSinhVien.Controls
                 return d;
             });
 
-            int xs  = items.Count(x => x.XepLoai == "Xuất sắc");
-            int g   = items.Count(x => x.XepLoai == "Giỏi");
+            int xs = items.Count(x => x.XepLoai == "Xuất sắc");
+            int g = items.Count(x => x.XepLoai == "Giỏi");
             int kha = items.Count(x => x.XepLoai == "Khá");
-            int tb  = items.Count(x => x.XepLoai == "Trung bình");
+            int tb = items.Count(x => x.XepLoai == "Trung bình");
             int yeu = items.Count(x => x.XepLoai == "Yếu");
 
             _lblLine1.Text =

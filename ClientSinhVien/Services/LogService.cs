@@ -21,10 +21,6 @@ namespace ClientSinhVien.Services
         public Color     Color   { get; set; }
     }
 
-    /// <summary>
-    /// Quản lý lịch sử hoạt động trong RAM.
-    /// Log chỉ tồn tại trong phiên chạy — không persist.
-    /// </summary>
     public class LogService
     {
         private readonly List<LogEntry> _entries = new List<LogEntry>();

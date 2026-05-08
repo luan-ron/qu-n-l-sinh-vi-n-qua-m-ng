@@ -9,11 +9,6 @@ using ClientSinhVien.Services;
 
 namespace ClientSinhVien.Services
 {
-    /// <summary>
-    /// Xuất danh sách sinh viên ra file Excel (.xlsx).
-    /// Dùng EPPlus 4.x (không cần LicenseContext).
-    /// NuGet: Install-Package EPPlus -Version 4.5.3.3
-    /// </summary>
     public static class ExportService
     {
         public static void ExportToExcel(List<SinhVienItem> items, string filePath)
@@ -22,7 +17,7 @@ namespace ClientSinhVien.Services
             {
                 var ws = package.Workbook.Worksheets.Add("Danh Sách Sinh Viên");
 
-                // ── Header row ───────────────────────────────────────────────
+
                 string[] headers = { "STT", "MSSV", "Họ và Tên", "Lớp", "Điểm TB", "Xếp Loại" };
                 for (int col = 1; col <= headers.Length; col++)
                 {
@@ -37,7 +32,6 @@ namespace ClientSinhVien.Services
                 }
                 ws.Row(1).Height = 24;
 
-                // ── Data rows ────────────────────────────────────────────────
                 for (int i = 0; i < items.Count; i++)
                 {
                     int row = i + 2;
@@ -49,8 +43,6 @@ namespace ClientSinhVien.Services
                     ws.Cells[row, 4].Value = sv.Lop;
                     ws.Cells[row, 5].Value = sv.Diem;
                     ws.Cells[row, 6].Value = sv.XepLoai;
-
-                    // Tô màu cột Xếp Loại
                     string hex   = GradeService.GetGradeHex(sv.XepLoai);
                     var    grade = ws.Cells[row, 6];
                     grade.Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -58,14 +50,12 @@ namespace ClientSinhVien.Services
                     grade.Style.Font.Bold = true;
                     grade.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                    // Căn giữa cột STT và Điểm TB
                     ws.Cells[row, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     ws.Cells[row, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                     ws.Row(row).Height = 20;
                 }
 
-                // ── Auto fit columns ──────────────────────────────────────────
                 ws.Cells[ws.Dimension.Address].AutoFitColumns();
                 // Đặt min width cho cột Họ tên
                 if (ws.Column(3).Width < 25) ws.Column(3).Width = 25;

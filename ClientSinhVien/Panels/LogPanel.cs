@@ -7,14 +7,7 @@ using ClientSinhVien.Services;
 
 namespace ClientSinhVien.Panels
 {
-    /// <summary>
-    /// File: LogPanel.cs
-    /// Chức năng: Khu vực hiển thị Lịch sử hoạt động (Log) phía dưới cùng.
-    /// Nhiệm vụ:
-    /// - Hiển thị các thay đổi thao tác (Thêm, Xóa, Cập nhật) để người dùng theo dõi theo thời gian thực.
-    /// - Cho phép mở rộng / thu gọn cửa sổ Log để tối ưu không gian hiển thị bảng.
-    /// - Có nút xóa (Clear) toàn bộ Log.
-    /// </summary>
+
     public class LogPanel : Panel
     {
         private RichTextBox _rtb;

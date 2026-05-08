@@ -391,6 +391,7 @@ namespace ClientSinhVien
                 diemInput = diemInput.Replace(" ", ""); 
                 try
                 {
+                    //ex nhap 7-9 tach ra thanh min == 7 max = 9
                     if (diemInput.Contains("-")) 
                     {
                         var p = diemInput.Split('-'); 
